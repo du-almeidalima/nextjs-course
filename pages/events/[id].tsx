@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Item } from '../api/items'
 
-const ItemDetail = () => {
+const EventDetail = () => {
     const router = useRouter()
     const [item, setItem] = useState<Item | null>(null)
 
     useEffect(() => {
+        if (!router.query.id) return
+
         fetch('/api/items/' + router.query.id)
             .then(async (res) => {
                 const resItem = await res.json() as Item
@@ -19,9 +21,9 @@ const ItemDetail = () => {
 
     return (
         <div className='container'>
-            {item ? <span>{item?.id} - {item?.name}</span> : '404 NOT FOUND'}
+            {item ? <span>{item?.id} - {item?.name}</span> : 'Loading...'}
         </div>
     )
 }
 
-export default ItemDetail
+export default EventDetail
